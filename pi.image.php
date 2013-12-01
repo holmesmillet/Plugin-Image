@@ -12,6 +12,38 @@ class Plugin_image extends Plugin {
     $src            = $this->fetch_param('src', null, false, false, false);
     $dim            = $this->fetch_param('dim', null);
     $quality        = $this->fetch_param('quality', '100');
+    $content        = $this->fetch_param('content', null);
+
+    if ($content !== null)
+    {
+      if ($dim == null) {
+        return $content;
+      }
+
+      $dom = new DOMDocument();
+      $dom->loadHTML($content);
+
+      foreach ($dom->getElementsByTagName('img') as $img) {
+        $src = $img->getAttribute("src");
+
+        if ($src == null) {
+          continue;
+        } else {
+          $pos = stripos($src, "/");
+          if ($pos !== false) {
+            if ($pos == 0) {
+              $src = substr($src, 1);
+            }
+          }
+        }
+
+        $arr = $this->generate_style($src, $dim, $quality);
+        $src = $img->setAttribute("src", $arr["url"]);
+      }
+
+      $content = $dom->saveHTML();
+      return $content;
+    }
 
     if ($src == null) {
       return '';
