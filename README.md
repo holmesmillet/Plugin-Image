@@ -68,3 +68,25 @@ The final width of the image
 ### Height `{{ height }}`
 
 The final width of the image
+
+## Parse Mode
+
+## Example Parse Tag
+
+    {{ image content='{content}' dim="400x300<" }}
+
+Example Input
+
+    <img src="/fish.jpg">
+
+Example Output
+
+    <img src="_cache/assets/img/blog/400x300a2-fish.jpg">
+
+## Parameters
+
+### Content `content`
+
+Pass content from a wysiwyg field or any text field containing html.
+
+    content='{content}'
